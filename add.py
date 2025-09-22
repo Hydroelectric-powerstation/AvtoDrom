@@ -115,3 +115,53 @@ if __name__ == '__main__':
     # Создаем папку для шаблонов если не существует
     os.makedirs('templates', exist_ok=True)
     app.run(debug=True)
+    # Добавьте эту функцию для работы с отзывами
+def load_reviews():
+    try:
+        with open('data/reviews.json', 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def save_review(review):
+    try:
+        os.makedirs('data', exist_ok=True)
+        reviews = load_reviews()
+        reviews.append(review)
+        
+        with open('data/reviews.json', 'w', encoding='utf-8') as f:
+            json.dump(reviews, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        print(f"Ошибка при сохранении отзыва: {e}")
+        return False
+
+# Добавьте этот маршрут для отзывов
+@app.route('/api/reviews', methods=['GET'])
+def get_reviews():
+    reviews = load_reviews()
+    return jsonify(reviews)
+
+@app.route('/api/reviews', methods=['POST'])
+def add_review():
+    try:
+        data = request.get_json()
+        
+        if not data or 'name' not in data or 'text' not in data:
+            return jsonify({'error': 'Необходимо указать имя и текст отзыва'}), 400
+        
+        review = {
+            'name': data['name'],
+            'text': data['text'],
+            'rating': data.get('rating', 5),
+            'timestamp': datetime.now().isoformat(),
+            'approved': True  # Все отзывы автоматически одобряются
+        }
+        
+        if save_review(review):
+            return jsonify({'success': True, 'message': 'Отзыв успешно добавлен'})
+        else:
+            return jsonify({'error': 'Ошибка при сохранении отзыва'}), 500
+            
+    except Exception as e:
+        return jsonify({'error': f'Внутренняя ошибка сервера: {str(e)}'}), 500
