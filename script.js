@@ -2,24 +2,24 @@
 const cars = [
     {
         id: 1,
-        name: "Седан Премиум",
-        description: "Комфортный семейный автомобиль с современным дизайном",
-        price: "850 000 руб.",
-        imageText: "Седан Премиум"
+        name: "Джипик жесткее",
+        description: "Некомфортный семейный автомобиль со старым дизайном",
+        price: "8500руб.",
+        imageText: "Джипик"
     },
     {
         id: 2,
-        name: "Универсал Комфорт",
+        name: "бибика полицаев",
         description: "Просторный автомобиль для путешествий с большим багажником",
-        price: "920 000 руб.",
-        imageText: "Универсал Комфорт"
+        price: "деняг много.",
+        imageText: "🚓"
     },
     {
         id: 3,
-        name: "Хэтчбек Стандарт",
-        description: "Экономичный городской автомобиль с низким расходом топлива",
-        price: "720 000 руб.",
-        imageText: "Хэтчбек Стандарт"
+        name: "Асулбек",
+        description: "Экономичный городской автомобиль с высоким расходом топлива",
+        price: "∞ руб.",
+        imageText: "Асулбек Стандарт"
     }
 ];
 
@@ -83,7 +83,7 @@ function setupForm() {
                 alert('Ошибка при отправке заявки: ' + (result.error || 'Неизвестная ошибка'));
             }
         } catch (error) {
-            alert('Ошибка соединения с сервером. Попробуйте позже.');
+            alert('Ошибка соединения с сервером. Попробуйте позже.АХАХХХАХАХ ЛОХ, А ПРИ ТЕСТЕ ВСЕ ОК БЫЛОО');
             console.error('Ошибка:', error);
         }
     });
@@ -97,7 +97,7 @@ function showOrderForm(carName) {
 
 // Показать каталог (заглушка для демонстрации)
 function showCatalog() {
-    alert("В полной версии сайта здесь откроется полный каталог автомобилей.");
+    alert("Тут нет и не будет полного католога😍😍😮");
 }
 
 // Имитация проверки наличия автомобиля (для демонстрации)
@@ -127,4 +127,60 @@ async function testServerConnection() {
 // Проверяем соединение при загрузке
 document.addEventListener('DOMContentLoaded', function() {
     // testServerConnection(); // Раскомментируйте для тестирования
+});
+// Обработка формы отзывов
+function setupReviewForm() {
+    const form = document.getElementById('review-form');
+    const stars = document.querySelectorAll('.star');
+    let selectedRating = 5;
+    
+    // Выбор рейтинга
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            selectedRating = parseInt(this.getAttribute('data-value'));
+            
+            // Обновляем отображение звезд
+            stars.forEach(s => {
+                const value = parseInt(s.getAttribute('data-value'));
+                if (value <= selectedRating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+    });
+    
+    // Изначально активируем 5 звезд
+    stars.forEach(star => {
+        const value = parseInt(star.getAttribute('data-value'));
+        if (value <= selectedRating) {
+            star.classList.add('active');
+        }
+    });
+    
+    // Отправка формы
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('review-name').value;
+        const text = document.getElementById('review-text').value;
+        
+        if (name && text) {
+            alert('Спасибо за ваш отзыв! После модерации он появится на сайте.');
+            form.reset();
+            
+            // Сброс рейтинга
+            stars.forEach(star => star.classList.remove('active'));
+            selectedRating = 5;
+            stars[0].classList.add('active');
+        }
+    });
+}
+
+// Добавьте вызов функции в обработчик DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadCars();
+    setupForm();
+    setupReviewForm(); // Добавьте эту строку
 });
