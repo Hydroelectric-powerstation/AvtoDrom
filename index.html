@@ -64,25 +64,110 @@
         </div>
     </section>
 
+ <section class="reviews">
+    <div class="container">
+        <h2>Отзывы наших клиентов</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Мария Иванова</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Приобрела автомобиль неделю назад. Качество превосходное! Обслуживание на высшем уровне. Машина едет плавно, расход топлива минимальный. Очень довольна покупкой!"</p>
+                <div class="review-date">15 ноября 2023</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Алексей Петров</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Пользуюсь автомобилем уже три месяца. Никаких нареканий! Сервисное обслуживание качественное, персонал вежливый. Машина надежная, рекомендую всем знакомым."</p>
+                <div class="review-date">2 ноября 2023</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Елена Смирнова</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Осталась в восторге от обслуживания! Помогли выбрать идеальный вариант, оформили все документы быстро. Машина радует каждый день, спасибо за качественный продукт!"</p>
+                <div class="review-date">28 октября 2023</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Дмитрий Козлов</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Лучшее соотношение цены и качества! После пробега в 5000 км проблем zero. Расходники не менял, все работает как часы. Брал в кредит - условия выгодные."</p>
+                <div class="review-date">20 октября 2023</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Ольга Новикова</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Покупкой довольна всей семьей! Дети в восторге, муж оценил технические характеристики. Багажник вместительный, в салоне удобно. Спасибо за отличный автомобиль!"</p>
+                <div class="review-date">12 октября 2023</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="reviewer">Иван Сидоров</div>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <p class="review-text">"Второй автомобиль покупаю в этом салоне. Качество стабильно высокое! Сервис стал еще лучше. Особенно порадовала гарантия и бесплатное ТО. Советую всем!"</p>
+                <div class="review-date">5 октября 2023</div>
+            </div>
+        </div>
+        
+        <div class="add-review">
+            <h3>Оставьте свой отзыв</h3>
+            <form id="review-form">
+                <div class="form-group">
+                    <label for="review-name">Ваше имя:</label>
+                    <input type="text" id="review-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">Ваш отзыв:</label>
+                    <textarea id="review-text" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Оценка:</label>
+                    <div class="rating-input">
+                        <span class="star" data-value="5">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="1">★</span>
+                    </div>
+                </div>
+                <button type="submit">Отправить отзыв</button>
+            </form>
+        </div>
+    </div>
+</section>
     <section class="contact-form">
         <div class="container">
             <h2>Оставьте заявку</h2>
             <form id="car-order-form" action="/api/application" method="POST">
                 <div class="form-group">
                     <label for="name">Ваше имя:</label>
-                    <input type="text" id="name" required>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Телефон:</label>
-                    <input type="tel" id="phone" required>
+                    <input type="tel" id="phone" name="phone" required>
                 </div>
                 <div class="form-group">
                     <label for="car-model">Интересующая модель:</label>
-                    <select id="car-model" required>
+                    <select id="car-model" name="car_model" required>
                         <option value="">Выберите модель</option>
-                        <option value="Седан Премиум">Седан Премиум</option>
-                        <option value="Универсал Комфорт">Универсал Комфорт</option>
-                        <option value="Хэтчбек Стандарт">Хэтчбек Стандарт</option>
+                        <option value="Седан Премиум">Джип</option>
+                        <option value="Универсал Комфорт">Бибика полицаев</option>
+                        <option value="Хэтчбек Стандарт">Асулбек Стандарт</option>
                     </select>
                 </div>
                 <button type="submit">Отправить заявку</button>
@@ -92,9 +177,13 @@
 
     <footer>
         <div class="container">
-            <p>© 2023 АвтоДром. Все права защищены.</p>
-            <p>г. Москва, ул. Автомобильная, 12</p>
-            <p>Телефон: +7 (495) 123-45-67</p>
+            <p>© 2013 АвтоДром. Все права защищены.</p>
+            <p>г. Висков, ул. Кирова, 34</p>
+            <p>Телефон: +7 (800) 555 35-35</p>
+            <p>ООО "тмыв денег"</p>
+            <p>предложка: <a href="https://t.me/anonincassatorBot" class="linkk">тык и перебросит</a></p>
+            <p>донатек: <a href="https://www.donationalerts.com/r/whiskusha" class="linkk">тык и перебросит</a></p>
+            <p>следующее обновление: 29.09.25, данная страница обновлена не будет</p>
         </div>
     </footer>
 
