@@ -1,130 +1,103 @@
-// Данные об автомобилях
-const cars = [
-    {
-        id: 1,
-        name: "Седан Премиум",
-        description: "Комфортный семейный автомобиль с современным дизайном",
-        price: "850 000 руб.",
-        imageText: "Седан Премиум"
-    },
-    {
-        id: 2,
-        name: "Универсал Комфорт",
-        description: "Просторный автомобиль для путешествий с большим багажником",
-        price: "920 000 руб.",
-        imageText: "Универсал Комфорт"
-    },
-    {
-        id: 3,
-        name: "Хэтчбек Стандарт",
-        description: "Экономичный городской автомобиль с низким расходом топлива",
-        price: "720 000 руб.",
-        imageText: "Хэтчбек Стандарт"
-    }
-];
-
-// Загрузка автомобилей на страницу
-document.addEventListener('DOMContentLoaded', function() {
-    loadCars();
-    setupForm();
-});
-
-// Загрузка автомобилей в каталог
-function loadCars() {
-    const carsContainer = document.getElementById('cars-container');
-    
-    cars.forEach(car => {
-        const carElement = document.createElement('div');
-        carElement.className = 'car-card';
-        carElement.innerHTML = `
-            <div class="car-image">${car.imageText}</div>
-            <div class="car-info">
-                <h3>${car.name}</h3>
-                <p>${car.description}</p>
-                <p class="car-price">${car.price}</p>
-                <button class="cta-button" onclick="showOrderForm('${car.name}')">Оставить заявку</button>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АвтоДром - Продажа надежных автомобилей</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>АвтоДром</h1>
+                <p>Надёжные автомобили для всей семьи</p>
             </div>
-        `;
-        
-        carsContainer.appendChild(carElement);
-    });
-}
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Главная</a></li>
+                    <li><a href="#">Каталог</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-// Настройка обработчика формы
-function setupForm() {
-    const form = document.getElementById('car-order-form');
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('name').value;
-        const phone = document.getElementById('phone').value;
-        const carModel = document.getElementById('car-model').value;
-        
-        try {
-            // Отправка данных на сервер
-            const response = await fetch('/api/application', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    phone: phone,
-                    car_model: carModel
-                })
-            });
-            
-            const result = await response.json();
-            
-            if (response.ok) {
-                alert(`Спасибо, ${name}! Ваша заявка на ${carModel} принята. Мы свяжемся с вами по номеру ${phone} в ближайшее время.`);
-                form.reset();
-            } else {
-                alert('Ошибка при отправке заявки: ' + (result.error || 'Неизвестная ошибка'));
-            }
-        } catch (error) {
-            alert('Ошибка соединения с сервером. Попробуйте позже.');
-            console.error('Ошибка:', error);
-        }
-    });
-}
+    <section class="hero">
+        <div class="container">
+            <h2>Найдите свой идеальный автомобиль</h2>
+            <p>Мы предлагаем лучшие автомобили по доступным ценам с гарантией качества</p>
+            <button class="cta-button" onclick="showCatalog()">Смотреть каталог</button>
+        </div>
+    </section>
 
-// Показать форму заказа с выбранной моделью
-function showOrderForm(carName) {
-    document.getElementById('car-model').value = carName;
-    document.querySelector('.contact-form').scrollIntoView({ behavior: 'smooth' });
-}
+    <section class="features">
+        <div class="container">
+            <h2>Почему выбирают нас</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <h3>Гарантия качества</h3>
+                    <p>Все автомобили проходят тщательную проверку</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>Доступные цены</h3>
+                    <p>Предлагаем лучшие цены на рынке</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Техобслуживание</h3>
+                    <p>Бесплатное ТО в течение года</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Показать каталог (заглушка для демонстрации)
-function showCatalog() {
-    alert("В полной версии сайта здесь откроется полный каталог автомобилей.");
-}
+    <section class="catalog-preview">
+        <div class="container">
+            <h2>Популярные модели</h2>
+            <div class="cars-grid" id="cars-container">
+                <!-- Cars will be loaded by JavaScript -->
+            </div>
+        </div>
+    </section>
 
-// Имитация проверки наличия автомобиля (для демонстрации)
-function checkAvailability(carId) {
-    // В реальном приложении здесь был бы запрос к серверу
-    const car = cars.find(c => c.id === carId);
-    if (car) {
-        alert(`Автомобиль "${car.name}" доступен для заказа!`);
-        return true;
-    }
-    return false;
-}
+    <section class="contact-form">
+        <div class="container">
+            <h2>Оставьте заявку</h2>
+            <form id="car-order-form" action="/api/application" method="POST">
+                <div class="form-group">
+                    <label for="name">Ваше имя:</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон:</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="car-model">Интересующая модель:</label>
+                    <select id="car-model" required>
+                        <option value="">Выберите модель</option>
+                        <option value="Седан Премиум">Седан Премиум</option>
+                        <option value="Универсал Комфорт">Универсал Комфорт</option>
+                        <option value="Хэтчбек Стандарт">Хэтчбек Стандарт</option>
+                    </select>
+                </div>
+                <button type="submit">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
 
-// Функция для тестирования связи с сервером
-async function testServerConnection() {
-    try {
-        const response = await fetch('/api/cars');
-        if (response.ok) {
-            console.log('Сервер работает корректно');
-        } else {
-            console.warn('Сервер вернул ошибку:', response.status);
-        }
-    } catch (error) {
-        console.error('Не удалось подключиться к серверу:', error);
-    }
-}
-// Проверяем соединение при загрузке
-document.addEventListener('DOMContentLoaded', function() {
-    // testServerConnection(); // Раскомментируйте для тестирования
-});
+    <footer>
+        <div class="container">
+            <p>© 2023 АвтоДром. Все права защищены.</p>
+            <p>г. Москва, ул. Автомобильная, 12</p>
+            <p>Телефон: +7 (495) 123-45-67</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
